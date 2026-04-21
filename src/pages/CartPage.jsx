@@ -15,7 +15,7 @@ const CartPage = () => {
     );
 
     const message = [
-      "Hello Luxe Bath & Kitchen Team,",
+      "Hello Sijo Plastics Team,",
       "",
       "I would like to place an order for the following items:",
       ...orderLines,
