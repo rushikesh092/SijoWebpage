@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "Brushed Gold Waterfall Faucet",
+    "price": "₹52,000",
+    "image": "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "faucets",
+    "stock": "In Stock"
+  },
+  {
+    "id": 2,
+    "name": "Luxe Tall Spout Mixer",
+    "price": "₹47,500",
+    "image": "https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "faucets",
+    "stock": "In Stock"
+  },
+  {
+    "id": 3,
+    "name": "Noir Single Lever Faucet",
+    "price": "₹39,900",
+    "image": "https://images.pexels.com/photos/6527045/pexels-photo-6527045.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "faucets",
+    "stock": "In Stock"
+  },
+  {
+    "id": 4,
+    "name": "Regal Brass Basin Mixer",
+    "price": "₹39,500",
+    "image": "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "faucets",
+    "stock": "In Stock"
+  },
+  {
+    "id": 5,
+    "name": "Auric Bridge Mixer Tap",
+    "price": "₹45,999",
+    "image": "https://images.pexels.com/photos/7937395/pexels-photo-7937395.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "faucets",
+    "stock": "Limited"
+  },
+  {
+    "id": 6,
+    "name": "Noir Matte Rainfall Shower Set",
+    "price": "₹67,500",
+    "image": "https://images.pexels.com/photos/6585607/pexels-photo-6585607.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "bathroom-ware",
+    "stock": "In Stock"
+  },
+  {
+    "id": 7,
+    "name": "Slate Thermostatic Shower Panel",
+    "price": "₹89,999",
+    "image": "https://images.pexels.com/photos/6585754/pexels-photo-6585754.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "bathroom-ware",
+    "stock": "Limited"
+  },
+  {
+    "id": 8,
+    "name": "Chrome Hand Shower Kit",
+    "price": "₹24,999",
+    "image": "https://images.pexels.com/photos/6585743/pexels-photo-6585743.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "bathroom-ware",
+    "stock": "In Stock"
+  },
+  {
+    "id": 9,
+    "name": "Minimal Wall Shower Mixer",
+    "price": "₹33,000",
+    "image": "https://images.pexels.com/photos/6444258/pexels-photo-6444258.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "bathroom-ware",
+    "stock": "In Stock"
+  },
+  {
+    "id": 10,
+    "name": "Matte Black Diverter Set",
+    "price": "₹28,700",
+    "image": "https://images.pexels.com/photos/6585623/pexels-photo-6585623.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "bathroom-ware",
+    "stock": "In Stock"
+  },
+  {
+    "id": 11,
+    "name": "Heritage Undermount Kitchen Sink",
+    "price": "₹41,000",
+    "image": "https://images.pexels.com/photos/2062431/pexels-photo-2062431.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "sinks",
+    "stock": "In Stock"
+  },
+  {
+    "id": 12,
+    "name": "Quartz Matte Black Sink",
+    "price": "₹58,999",
+    "image": "https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "sinks",
+    "stock": "In Stock"
+  },
+  {
+    "id": 13,
+    "name": "Titanium Edge Farmhouse Sink",
+    "price": "₹76,000",
+    "image": "https://images.pexels.com/photos/6782366/pexels-photo-6782366.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "sinks",
+    "stock": "In Stock"
+  },
+  {
+    "id": 14,
+    "name": "Granite Composite Kitchen Sink",
+    "price": "₹49,990",
+    "image": "https://images.pexels.com/photos/6444367/pexels-photo-6444367.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "sinks",
+    "stock": "In Stock"
+  },
+  {
+    "id": 15,
+    "name": "Heritage Double Bowl Sink",
+    "price": "₹62,500",
+    "image": "https://images.pexels.com/photos/6782575/pexels-photo-6782575.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "category": "sinks",
+    "stock": "Out of Stock"
+  }
+]
