@@ -7,8 +7,7 @@ const stockColumns = ["In Stock", "Limited", "Out of Stock"];
 const defaultFormState = {
   name: "",
   price: "",
-  image:
-    "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=1400",
+  image: "",
   category: "faucets",
   stock: "In Stock",
 };
@@ -17,7 +16,7 @@ const AdminPage = () => {
   const { products, categories, addProduct, updateProduct, deleteProduct, resetProducts } =
     useProducts();
 
-  // 🔐 SIMPLE LOGIN (HARD CODED)
+  // 🔐 SIMPLE LOGIN
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -27,17 +26,17 @@ const AdminPage = () => {
 
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(defaultFormState);
-  const [draggingProductId, setDraggingProductId] = useState(null);
+  const [draggingId, setDraggingId] = useState(null);
 
-  const categoryNames = useMemo(() => {
-    return categories.reduce((map, category) => {
-      map[category.slug] = category.title;
-      return map;
+  const categoryMap = useMemo(() => {
+    return categories.reduce((acc, cat) => {
+      acc[cat.slug] = cat.title;
+      return acc;
     }, {});
   }, [categories]);
 
-  // 🔐 LOGIN FUNCTION
-  const handleAuthorize = (e) => {
+  // 🔐 LOGIN
+  const handleLogin = (e) => {
     e.preventDefault();
 
     if (
@@ -46,12 +45,24 @@ const AdminPage = () => {
     ) {
       setIsAuthorized(true);
     } else {
-      alert("Wrong username or password");
+      alert("Wrong credentials");
     }
   };
 
-  const setField = (field, value) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
+  // 📁 IMAGE UPLOAD FROM PC
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setForm((prev) => ({ ...prev, image: reader.result }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const setField = (key, value) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
   };
 
   const resetForm = () => {
@@ -59,14 +70,17 @@ const AdminPage = () => {
     setEditingId(null);
   };
 
+  // ➕ ADD / EDIT PRODUCT
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const payload = {
       ...form,
       name: form.name.trim(),
-      image: form.image.trim(),
       price: form.price,
+      image:
+        form.image ||
+        "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg",
     };
 
     if (!payload.name || !payload.price) {
@@ -88,11 +102,10 @@ const AdminPage = () => {
     setForm(product);
   };
 
-  const handleDropToStock = (stockValue) => {
-    if (!draggingProductId) return;
-
-    updateProduct(draggingProductId, { stock: stockValue });
-    setDraggingProductId(null);
+  const handleDrop = (stock) => {
+    if (!draggingId) return;
+    updateProduct(draggingId, { stock });
+    setDraggingId(null);
   };
 
   const handleLogout = () => {
@@ -105,10 +118,12 @@ const AdminPage = () => {
     return (
       <div className="flex min-h-screen items-center justify-center bg-black text-white">
         <form
-          onSubmit={handleAuthorize}
-          className="w-80 rounded-lg border border-gray-700 p-6"
+          onSubmit={handleLogin}
+          className="w-96 rounded-xl border border-gray-700 bg-gray-900 p-6"
         >
-          <h2 className="mb-4 text-xl font-bold">Admin Login</h2>
+          <h2 className="mb-4 text-2xl font-bold text-yellow-400">
+            Admin Login
+          </h2>
 
           <input
             className="mb-3 w-full rounded bg-gray-800 p-2"
@@ -120,19 +135,16 @@ const AdminPage = () => {
           />
 
           <input
-            className="mb-3 w-full rounded bg-gray-800 p-2"
-            placeholder="Password"
             type="password"
+            className="mb-4 w-full rounded bg-gray-800 p-2"
+            placeholder="Password"
             value={credentials.password}
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })
             }
           />
 
-          <button
-            className="w-full rounded bg-yellow-500 p-2 font-bold text-black"
-            type="submit"
-          >
+          <button className="w-full rounded bg-yellow-500 p-2 font-bold text-black">
             Login
           </button>
         </form>
@@ -140,11 +152,12 @@ const AdminPage = () => {
     );
   }
 
-  // 🔥 ADMIN DASHBOARD
+  // 📊 ADMIN PANEL
   return (
     <div className="min-h-screen bg-[#0b0b0b] p-6 text-white">
-      <div className="mb-4 flex justify-between">
-        <h1 className="text-2xl font-bold">Admin Panel</h1>
+      {/* HEADER */}
+      <div className="mb-6 flex justify-between">
+        <h1 className="text-3xl font-bold text-yellow-400">Admin Dashboard</h1>
 
         <button
           onClick={handleLogout}
@@ -155,12 +168,14 @@ const AdminPage = () => {
       </div>
 
       {/* FORM */}
-      <div className="mb-6 rounded border p-4">
-        <h2 className="mb-2 text-lg">Add / Edit Product</h2>
+      <div className="mb-8 rounded-xl border border-gray-700 bg-gray-900 p-5">
+        <h2 className="mb-4 text-xl font-semibold">
+          {editingId ? "Edit Product" : "Add Product"}
+        </h2>
 
         <input
           className="mb-2 w-full rounded bg-gray-800 p-2"
-          placeholder="Name"
+          placeholder="Product Name"
           value={form.name}
           onChange={(e) => setField("name", e.target.value)}
         />
@@ -172,18 +187,35 @@ const AdminPage = () => {
           onChange={(e) => setField("price", e.target.value)}
         />
 
-        <input
-          className="mb-2 w-full rounded bg-gray-800 p-2"
-          placeholder="Image URL"
-          value={form.image}
-          onChange={(e) => setField("image", e.target.value)}
-        />
+        {/* 📁 FILE UPLOAD */}
+        <label className="mb-2 block cursor-pointer rounded border border-dashed border-gray-500 bg-gray-800 p-3 text-sm">
+          <div className="flex items-center gap-2">
+            <Upload size={14} />
+            Upload Image from PC
+          </div>
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="mt-2 w-full text-xs"
+          />
+        </label>
+
+        {/* 🖼️ PREVIEW */}
+        {form.image && (
+          <img
+            src={form.image}
+            className="mb-3 h-28 w-full rounded object-cover"
+            alt="preview"
+          />
+        )}
 
         <button
           onClick={handleSubmit}
-          className="rounded bg-green-500 px-4 py-2"
+          className="rounded bg-green-500 px-4 py-2 font-bold text-black"
         >
-          {editingId ? "Update" : "Add"}
+          {editingId ? "Update" : "Add Product"}
         </button>
       </div>
 
@@ -192,37 +224,44 @@ const AdminPage = () => {
         {stockColumns.map((stock) => (
           <div
             key={stock}
-            className="rounded border p-3"
+            className="rounded-xl border border-gray-700 bg-gray-900 p-4"
             onDragOver={(e) => e.preventDefault()}
-            onDrop={() => handleDropToStock(stock)}
+            onDrop={() => handleDrop(stock)}
           >
-            <h3 className="mb-2 font-bold">{stock}</h3>
+            <h3 className="mb-3 font-bold text-yellow-400">{stock}</h3>
 
             {products
               .filter((p) => p.stock === stock)
-              .map((product) => (
+              .map((p) => (
                 <div
-                  key={product.id}
+                  key={p.id}
                   draggable
-                  onDragStart={() => setDraggingProductId(product.id)}
-                  className="mb-2 rounded bg-gray-800 p-2"
+                  onDragStart={() => setDraggingId(p.id)}
+                  className="mb-3 rounded bg-gray-800 p-3"
                 >
-                  <p>{product.name}</p>
-                  <p>{product.price}</p>
+                  <img
+                    src={p.image}
+                    className="mb-2 h-20 w-full rounded object-cover"
+                  />
 
-                  <button
-                    onClick={() => startEdit(product)}
-                    className="mr-2 text-blue-400"
-                  >
-                    Edit
-                  </button>
+                  <p className="font-semibold">{p.name}</p>
+                  <p className="text-sm text-yellow-400">{p.price}</p>
 
-                  <button
-                    onClick={() => deleteProduct(product.id)}
-                    className="text-red-400"
-                  >
-                    Delete
-                  </button>
+                  <div className="mt-2 flex gap-2">
+                    <button
+                      onClick={() => startEdit(p)}
+                      className="text-blue-400"
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={() => deleteProduct(p.id)}
+                      className="text-red-400"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))}
           </div>
