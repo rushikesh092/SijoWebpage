@@ -19,7 +19,7 @@ const defaultFormState = {
 const AdminPage = () => {
   const { products, categories, addProduct, updateProduct, deleteProduct, resetProducts } =
     useProducts();
-  const [credentials, setCredentials] = useState({ username: "", password: "" });
+  const [credentials, setCredentials] = useState({ username: "Admin", password: "sijo@123" });
   const [isAuthorized, setIsAuthorized] = useState(
     sessionStorage.getItem(ADMIN_SESSION_KEY) === "true"
   );
@@ -41,55 +41,15 @@ const AdminPage = () => {
   const handleAuthorize = (event) => {
     event.preventDefault();
     setIsSaving(true);
-    fetch(`${API_BASE_URL}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username: credentials.username.trim(),
-        password: credentials.password
-      })
-    })
-      .then(async (response) => {
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          throw new Error(data?.message || "Invalid username or password.");
-        }
-        if (!data?.token) {
-          throw new Error("Login failed.");
-        }
-        localStorage.setItem(ADMIN_TOKEN_KEY, data.token);
-        setAuthToken(data.token);
-        setIsAuthorized(true);
-        sessionStorage.setItem(ADMIN_SESSION_KEY, "true");
-      })
-      .catch((error) => {
-        alert(error.message);
-      })
-      .finally(() => {
-        setIsSaving(false);
-      });
-  };
-
-  const setField = (field, value) => setForm((prev) => ({ ...prev, [field]: value }));
-
-  const resetForm = () => {
-    setForm(defaultFormState);
-    setEditingId(null);
-  };
-
-  const handleImageUpload = (event) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === "string") {
-        setField("image", reader.result);
-      }
-    };
-    reader.readAsDataURL(file);
+    // Simple client-side authentication
+    if (credentials.username.trim() === "admin" && credentials.password === "admin") {
+      setAuthToken("dummy-token");
+      setIsAuthorized(true);
+      sessionStorage.setItem(ADMIN_SESSION_KEY, "true");
+    } else {
+      alert("Invalid username or password.");
+    }
+    setIsSaving(false);
   };
 
   const formatPrice = (price) =>
